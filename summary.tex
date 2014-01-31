@@ -1,0 +1,102 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage[finnish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{verbatim}
+\usepackage[numbers]{natbib}
+\usepackage{hyperref}
+\subject{Artikkelireferaatti}
+\author{Jarno Leppänen}
+\title{Matkapuhelinverkkoon perustuva paikannus 
+paikkatietoa käyttävien sovellusten tarpeisiin}
+\date{31.1.2014}
+\begin{document}
+\maketitle
+
+\section{Johdanto}
+
+Varshavsky et al.\cite{Varshavsky06aregsm} esittävät matkapuhelinverkkoihin
+perustuvan paikannuksen olevan varteenotettava ratkaisu paikkatietoa
+hyödyntävien sovellusten tarpeisiin. Artikkelin mukaan sovellukset hyödyntävät paikkatietoa tyypillisesti kolmella
+eri tavalla: sisätiloissa tapahtuvaan paikannukseen, ulkotiloissa tapahtuvaan
+paikannukseen sekä merkityksellisten paikkojen tunnistamiseen. Nämä tarpeet 
+ovat tyypillisesti erilaisia: sisätiloissa
+korostuu paikannuksen tarkkuus ja ulkotiloissa paikannuksen kattavuus.
+
+\section{Taustaa}
+
+Yleisin paikannustekniikka on satelliittipaikannukseen perustuva GPS, joka
+on lyömätön avoimissa ulkotiloissa, mutta toimii huonosti sisä- ja kaupunkitiloissa.
+
+WiFi-paikannus on WiFi-verkkojen yleisyyden vuoksi houkutteleva vaihtoehto
+paikannuksen tarpeisiin. Artikkelissa esitetään useitä hankkeita, joissa
+WiFi-paikannuksen tarkkuudesta on saatu lupaavia tuloksia. WiFi on kuitenkin
+usein virrankulutuksen vuoksi kytketty pois päältä, mikä heikentää sen hyödyntämistä
+jatkuvaan paikannukseen.
+
+Artikkelin mukaan matkapuhelintekniikalla on useita hyviä puolia paikannuksen
+näkökulmasta. Matkapuhelimet ovat aina mukana, jatkuvasti kiinni verkossa ja ovat vakiintunutta tekniikkaa. Matkapuhelinverkot toimivat tarkkaan säädellyillä taajuusalueilla, joten
+ne kärsivät WiFi-verkkoa vähemmän erilaisista häiriölähteistä. Matkapuhelinverkoilla on lisäksi WiFi-verkkoja laajempi kattavuus ja verkkoympäristö muuttuu suurten rakentamiskustannusten vuoksi hitaasti.
+	  
+\section{GSM}
+GSM on laajalle levinnyt matkapuhelinverkkostandardi: GSM-verkkoja on artikkelin kirjoittamisen aikaan ollut 210 maassa 676 operaattorin ylläpitämänä.
+
+GSM-verkko jakautuu maantieteellisesti matkapuhelintukiasemien virittämiin soluihin. Kullakin solulla on tietty
+kontrollikanava, jolla solut lähettävät vakioteholla signaalia muun muassa naapurisolujen asetuksista. Eri solujen lähettämien signaalien avulla matkapuhelinverkon käyttäjät voivat
+vertailla solujen kuuluvuutta ja vaihtaa tarvittaessa solua.
+
+Artikkelissa kehitettiin kahdelle matkapuhelinverkossa toimivalle laitteelle
+ohjelmisto, jonka avulla laitteiden soluilta vastaanottamaan signaalidataan päästän
+käsiksi.
+
+\section{Paikannus}
+
+Artikkelissa käytettiin fingerprinting- ja centroid-menetelmää paikkatiedon laskemiseen GSM- ja WiFi-verkoissa. Molemmat menetelmät vaativat opetusvaiheen,
+jossa tarkkaan paikkatietoon yhdistettyn signaalidatan avulla laaditaan malli, jolla paikkatieto voidaan estimoida signaalidatan perusteella. Paikkatieto saadaan GPS-signaalista.
+
+Centroid-menetelmässä kerätyn tiedon perusteella lasketaan tukiasemien sijainnit,
+jolloin uuden signaalitiedon perusteella voidaan estimoida matkapuhelinverkon
+käyttäjän sijainti. Menetelmä toimii kuitenkin huonosti ympäristössä, jossa
+ovet, seinät ja muut esteet heikentävät signaalia odottamattomalla tavalla.
+
+Fingerprinting-menetelmässä kerättyyn tietoon sovitetaan suoraan malli, jonka
+avulla paikkatieto lasketaan signaalidatasta.
+
+\subsection{Paikannus sisätiloissa}
+
+Suurissa kerrostaloissa suoritetuista GSM-mittauksista fingerprinting-menetelmällä saatujen paikkatietojen mediaanitarkkuus vaihteli tutkimuksessa 2.48 m ja 5.44 m 
+välillä. WiFi-mittauksista avulla samalla menetelmällä lasketut paikkatietojen 
+mediaanitarkkuus oli keskimäärin 23\% parempi. Mittausten perusteella onnistuttiin
+myös luokittelemaan suurella tarkkuudella kerros, jossa käyttäjä on.
+
+Sisätilamittausten perusteella yritettiin lisäksi tunnistaa, missä huoneessa
+käyttäjä on. Tässä saavutettiin 70\% luokittelutarkkuus, joskin suurin osa
+väärin luokitelluista huoneista oli heti oikean huoneen vieressä.
+
+\subsection{Paikannus ulkotiloissa}
+
+Fingerprinting-menetelmällä saatiin ulkotiloissa GSM-paikannuksen mediaanivirheeksi 75m, mikä 
+artikkelin mukaan vastaa tyypillistä WiFi-paikannuksen tarkkuutta ja riittää
+paikkatietoa ulkotiloissa hyödyntävien sovellusten tarpeisiin.
+
+\subsection{Paikan tunnistus}
+
+Tutkimuksessa laadittiin menetelmä, jonka avulla tunnistetaan käyttäjälle
+merkityksellisiä paikkoja. Näiden ajateltiin olevan sellaisia kohteita, joissa
+käyttäjä on kerätyn signaalidatan perusteella pitkään paikallaan. Tutkimuksessa
+saavutettiin kuukauden mittaisen testijakson aikana kerätyn datan perusteella suuri vastaavuus menetelmän tunnistamien ja etukäteen nimettyjen paikkojen välillä.
+
+\section{Yhteenveto}
+
+Artikkelin mukaan tutkimus osoittaa, että GSM-verkkoon perustuva paikannus
+on varteenotettava ratkaisu paikkatietoa hyväksikäyttävien sovellusten tarpeisiin
+sisä- ja ulkotiloissa. GSM-paikannuksen avulla voidaan myös suurella 
+tarkkuudella tunnistaa käyttäjälle merkityksellisiä paikkoja. Menetelmällä saavutetut tulokset ovat tarkkuudeltaan vastaavia WiFi-paikannuksen kanssa.
+
+Artikkelin mukaan tutkimuksessa saavutetut tulokset ovat laajennettavissa
+kaikenlaisiin matkapuhelinverkkoihin.
+
+Menetelmän haittapuolena GPS-verkkoihin nähden on opetusvaiheen vaatima työläs signaali- ja paikkatietoaineiston kerääminen.
+
+\bibliographystyle{plainnat}
+\bibliography{kandi}
+\end{document}
