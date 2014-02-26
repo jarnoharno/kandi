@@ -107,8 +107,9 @@ Zee?
      \begin{itemize}
        \item Suuntima- ja etäisyysjärjestelmät (lateration and angulation):
          ultraääni, laajakaistaradio, Ubisense
-       \item Läheisyysantureihin perustuvat järjestelmät: RFID, bluetooth,
-         In-Location Alliance
+       \item Läheisyysantureihin perustuvat järjestelmät: RFID, bluetooth
+         (erityisen suosittu valmistajien keskuudessa),
+         In-Location Alliance, iBeacon,
        \item Radiotunnistejärjestelmät: Wifi fingerprinting (Harlen mukaan
          tähän mennessä menestyksekkäin). Ongelmana ristiriita paikannuksen
          ja tietoliikenteen tarpeissa: paikannusta varten referenssipisteitä
@@ -156,7 +157,7 @@ Zee?
      (Wifi, bluetootk, GSM, RFID).
 \end{itemize}
 
-\subsection{\cite{woodman2010pedestrian}}
+\subsection{Woodman PhD\cite{woodman2010pedestrian}}
 \begin{itemize}
   \item Esitys absoluuttisista ja suhteellisista paikannusmenetelmistä
   \item Kehitetty menetelmä: jalkapohjaan kiinnitettävä anturi, PDR-suodin
@@ -168,8 +169,41 @@ Zee?
     jäljitysongelmaksi partikkelipilven kasautuessa.
   \item Partikkelisuodin vaatii valtavasti laskentatehoa varsinkin epöavrmuuden
     ollessa suuri paikannuksen alkuvaiheessa.
+  \item Partikkelien lukumäärän dynaaminen resamplaus, klusterin tunnistus,
+    suotimen laskentatehokkuus. Paikannus on sitä tarkempi, mitä enemmän
+    ympäristön rajoitusehtoja. Virheelliset rajoitusehdot ongelmana.
+  \item Voronoi-verkko rajoitusehtona (käyttäjän sijainti voi olla ainoastaan
+    tällä verkolla) voi dramaattisesti pienentää vaadittavien
+    partikkelien lukumäärää.
+  \item Avustettu paikannus: alustus, paikannuksen aikainen avustus. Suunta
+    magnetometrin avulla, alkupaikka GPS:n tai muun absoluuttisen
+    paikannusjärjestelmän avulla
+  \item Wifi-fingerprinttien kartoittaminen automaattisesti PDR:n avulla:
+    jaetaan kartta alueisiin, joihin rf-tunniste liitetään. Laajennettavissa
+    muihin radiolähteisiin, joista saatavilla RSSI ja tunnistetiedot ja
+    jotka pysyvät suhteellisen staattisina. Myös magneettisia häiriöitä
+    voidaan kartoittaa.
+  \item Väite: rf-signaalin havainnointi jäljitysvaiheessa hyödytöntä johtuen
+    signaalikartan karkeasta resoluutiosta ja homogeenisuudesta.
+  \item Johtopäätöksiä: INS mahdotonta - virhe 170m minuutin jälkeen. Suunta:
+    partikkelisuodin ympäristön rajoitusehdoista, ei magnetometrista.
+    Alustus ja partikkelien lukumäärän minimointi: absoluuttinen
+    paikannusmenetelmä tai rf-tunnisteet.
+  \item Ongelmia: Liikkuvat lattiatasot (hissit)?, kartoitus, sensorin
+    sijaintiriippumattomuus, laskennalliset ja virankäytön vaatimukset.
 \end{itemize}
-\cite{rai2012zee}
+
+\subsection{Rai\cite{rai2012zee}}
+\begin{itemize}
+  \item RF-kartoitus ongelma. Kehitetty radiosignaalin etenemiseen kehitettyjä
+    malleja, jotka vähentävät kalibroinnin tarvetta.
+  \item Zee käyttää PDR:ää ja samanaikaista wifi-mittausta yhdessä karttatiedon
+    kanssa radiotunnistekartan rakentamiseen.
+  \item Novelties: (a) askeltunnistus ja suunnan estimointi (b) askellustiedon
+    sisällyttäminen partikkelifiltteriin (c) menneisyyden paikkatietojen
+    päivitys (d) Wifi-tietoon perustuva paikkatiedon alustus.
+\end{itemize}
+
 \cite{li2012reliable}
 \cite{evennou2006advanced}
 \cite{groves2013principles}
