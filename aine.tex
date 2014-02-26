@@ -10,12 +10,11 @@
 \title{Sisätilapaikannus matkapuhelimella}
 \date{18.2.2014}
 \begin{document}
-\maketitle
 
-\newglossaryentry{laskelmasuunnistus}{
-  name=laskelmasuunnistus,
-  description={dead reckoning}
-}
+\maketitle
+\makeglossaries
+
+\input{glossary.tex}
 
 \tableofcontents
 
@@ -74,7 +73,6 @@ Zee?
 
 \section{Sanasto}
 
-\glsaddall
 \printglossaries
 
 \section{Referaatit}
@@ -196,12 +194,19 @@ Zee?
 \subsection{Rai\cite{rai2012zee}}
 \begin{itemize}
   \item RF-kartoitus ongelma. Kehitetty radiosignaalin etenemiseen kehitettyjä
-    malleja, jotka vähentävät kalibroinnin tarvetta.
+    malleja, jotka vähentävät kalibroinnin tarvetta. Ongelmia näissä ovat
+    osittainen opetusdatan tarve, vaatimus tukiasemien konfiguraatio- ja
+    tiedoista etukäteen sekä tarkkuuden menetys.
   \item Zee käyttää PDR:ää ja samanaikaista wifi-mittausta yhdessä karttatiedon
     kanssa radiotunnistekartan rakentamiseen.
   \item Novelties: (a) askeltunnistus ja suunnan estimointi (b) askellustiedon
     sisällyttäminen partikkelifiltteriin (c) menneisyyden paikkatietojen
     päivitys (d) Wifi-tietoon perustuva paikkatiedon alustus.
+  \item Zee input: karttatieto (rajoitusehdot), käyttäjän trajektori
+    PDR-menetelmillä.
+  \item Partikkelifiltterin konvergenssia parannetaan wifi-fingerprint
+    alustuksella sekä absoluuttisen suunnan estimoinnilla.
+  \item RF fingerprinting 
 \end{itemize}
 
 \cite{li2012reliable}
