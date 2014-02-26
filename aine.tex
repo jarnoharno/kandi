@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{verbatim}
 \usepackage[numbers]{natbib}
+\usepackage[xindy]{glossaries}
 \usepackage{hyperref}
 \subject{Aine}
 \author{Jarno Leppänen}
@@ -10,6 +11,11 @@
 \date{18.2.2014}
 \begin{document}
 \maketitle
+
+\newglossaryentry{laskelmasuunnistus}{
+  name=laskelmasuunnistus,
+  description={dead reckoning}
+}
 
 \tableofcontents
 
@@ -66,9 +72,103 @@ Zee?
 
 \section{Yhteenveto}
 
-\cite{varshavsky2005gsm}
-\cite{harle2013survey}
-\cite{woodman2010pedestrian}
+\section{Sanasto}
+
+\glsaddall
+\printglossaries
+
+\section{Referaatit}
+
+\subsection{Varshavsky \cite{varshavsky2005gsm}}
+\begin{itemize}
+  \item Kolme erilaista käyttötarkoitusta: sisätilapaikannus, ulkotilapaikannus
+    sekä paikan tunnistus.
+  \item Väite: matkapuhelinpaikannus toimii hyvin sisätilapaikannukseen ja
+    paikan tunnistukseen.
+\end{itemize}
+
+\subsection{Harle \cite{harle2013survey}}
+\begin{itemize}
+  \item Väite: PDR:stä apua sisätilapaikannukseen, tarvitaan ajoittaisia fiksejä
+    absoluuttisesta paikannusjärjestelmästä.
+  \item Sisätilapaikannuksen sovelluksia:
+    \begin{itemize}
+      \item Turvallisuus, pelastautuminen
+      \item Tietoturva, paikkaan perustuva resurssien hallinta
+      \item Tehokkuus: valaistuksen, lämmityksen optimointi
+      \item Automaattinen resurssien ohjaus: esim. puheluiden ohjaus
+        lähimpään laitteeseen.
+      \item Navigointi: vieraan ohjaus
+    \end{itemize}
+  \item Väite: olemassa oleviin radiosignaaleihin perustuva paikannus ei
+    riitä: tukiasemien sijoittelua ei ajateltu paikannuksen kannalta.
+  \item PDR nousussa, koska sensorit yleistyneet.
+  \item Sisätilapaikannustyyppejä:
+     \begin{itemize}
+       \item Suuntima- ja etäisyysjärjestelmät (lateration and angulation):
+         ultraääni, laajakaistaradio, Ubisense
+       \item Läheisyysantureihin perustuvat järjestelmät: RFID, bluetooth,
+         In-Location Alliance
+       \item Radiotunnistejärjestelmät: Wifi fingerprinting (Harlen mukaan
+         tähän mennessä menestyksekkäin). Ongelmana ristiriita paikannuksen
+         ja tietoliikenteen tarpeissa: paikannusta varten referenssipisteitä
+         tulisi olla useita, mutta tietoliikenteen kannalta halutaan
+         mahdollisimman vähän päällekkäistä peittoa.
+       \item Laskelmasuunnistus: ei infraa, tarvitsee tuekseen absoluuttista
+         paikannusjärjestelmää suhteellinen sijainnin vuoksi,
+         virheen kumuloituminen ongelma
+     \end{itemize}
+   \item Inertiaalinavigointi (INS), joka laskee sensorin kulkemaa trajektoria
+     vs. askelsuuntajärjestelmä (SHS, Step-and-Heading), joka laskee
+     käyttäjän mukana olevan sensorin avulla askelten lukumärää, pituutta ja
+     suuntaa.
+   \item SHS-INS: INS, joka pilkotaan askeleiksi.
+   \item Robotiikan paikannusmenetelmiä:
+     \begin{itemize}
+       \item Partikkelisuotimet: eliminoidaan rajoitusehtojen estämiä
+         tiloja, karttatieto rajoitusehtona.
+       \item Yhtäaikainen paikannus ja kartoitus (SLAM): paikannustieto paranee
+         ajan myötä.
+     \end{itemize}
+   \item Askelluksen analysointi: stance-swing, toe-off/push-off,
+     heel-strike/foot-down, jaksollinen liike
+   \item Askeleen havainnointi: stance detection, peak detection, zero crossing
+     autocorrelation, spectral analysis
+   \item INS PDR-kontekstissa: otettava gyroskooppidata huomioon, kolmas
+     integrointi, MEMS-sensoreilla virhe dominoi minuutin tai kahden
+     kuluttua. Klassisesti käytetään 15 muuttujan laajennettua Kalman-suodinta:
+     3 tilaa * kiihtyvyys, nopeus, suunta, kiihtyvyysanturi, gyroskooppi.
+   \item INS-rajoitusehto: ZUPT, tunistetaan, milloin jalka on paikallaan.
+     Sensorin täytyy tällöin olla kiinnitettynä jalkaterään. NavShoe, 2005.
+   \item Magnetometrit: absoluuttinen suunta. Ongelmana heikko magneettikenttä
+     ja rakennusten sisällä tavattavat magneettiset häiriöt. Yleinen tapa
+     virheenkorjaukseen on suodattaa toleranssin sisällä olevat "mahdottomat"
+     arvot. Yhdistämällä gyroskooppi- ja magnetometridataa voidaan korjata
+     magnetometrin virhettä.
+   \item Hybridijärjestelmät: \textbf{PDR + Fingerprinting -tekniikalla voidaan
+     kartoittaa tilaa ilman erillistä kalibrointivaihetta.} (Zee, Harle/Woodman)
+     WifiSlam, Faragher Opportunistic radio SLAM
+   \item Kysymyksiä: vertailukelpoinen evaluointimenetelmä, miten huomioida
+     sensorin vapaa sijoittelu, sensorin dynaaminen virhe, virrankulutus,
+     laskentaresurssien kulutus, järjestelmän initialisointi (bootstrapping):
+     karttatieto, partikkelit
+   \item Hybridijärjestelmien esiinmarssi: PDR + jokin absoluuttinen paikannus
+     (Wifi, bluetootk, GSM, RFID).
+\end{itemize}
+
+\subsection{\cite{woodman2010pedestrian}}
+\begin{itemize}
+  \item Esitys absoluuttisista ja suhteellisista paikannusmenetelmistä
+  \item Kehitetty menetelmä: jalkapohjaan kiinnitettävä anturi, PDR-suodin
+  \item Väite: kompassin käyttö suunnan estimoimiseksi mahdotonta
+    magneettisten häiriöiden vuoksi.
+  \item Karttatiedon hyödyntäminen partikkelisuotimen avulla. Ongelmana
+    karttatiedon symmetriat, partikkelilukumäärän skaalautuvuus.
+  \item Partikkelisuotimen avulla paikannusongelma palautuu luontevasti
+    jäljitysongelmaksi partikkelipilven kasautuessa.
+  \item Partikkelisuodin vaatii valtavasti laskentatehoa varsinkin epöavrmuuden
+    ollessa suuri paikannuksen alkuvaiheessa.
+\end{itemize}
 \cite{rai2012zee}
 \cite{li2012reliable}
 \cite{evennou2006advanced}
@@ -81,6 +181,8 @@ Zee?
 \cite{wang2012unsupervised}
 \cite{renaudin2013adaptative}
 \cite{madgwick2011estimation}
+\cite{mautz2012indoor}
+\cite{faragher2012opportunistic}
 
 \bibliographystyle{plainnat}
 \bibliography{kandi}
