@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{verbatim}
 \usepackage[numbers]{natbib}
-\usepackage[xindy]{glossaries}
+\usepackage[xindy,nonumberlist,acronym]{glossaries}
 \usepackage{hyperref}
 \subject{Aine}
 \author{Jarno Leppänen}
@@ -206,16 +206,63 @@ asdfasdafsdasasdf
   \item Sijaintiriippumaton liikeentunnistus (PIME). Suuntapoikkeama (HO).
   \item Laajennettu partikkelisuodin, todennäköisyysjakauma sijainnin,
     askelpituuden ja suuntapoikkeaman suhteen.
+  \item Zeessä kerättiin profiileja kiihtyvyysanturidatasta. Kävely tunnistetaan
+    kiihtyvyysanturidatan autokorrelaatiosta sekä varianssista.
+  \item Käyttäjän suunta tunnistetaan kiihtyvyysanturidatan yläsävelsarjan
+    avulla: liikkeen suunnassa perustaajuus on voimakkaimmillaan ja
+    liikettä vastaan kohtisuorassa suunnassa toinen ensimmäinen
+    yläsäveltaajuus on voimakkaimmillaan.
 \end{itemize}
 
-\cite{li2012reliable}
-\cite{evennou2006advanced}
-\cite{groves2013principles}
-\cite{leppakoski2013pedestrian}
-\cite{woodman2009rf}
-\cite{kunze2009way}
-\cite{stirling2003innovative}
-\cite{steinhoff2010dead}
+\subsection{Li\cite{li2012reliable}}
+\begin{itemize}
+  \item Askeltunnistin: alipäästösuodin, peak detection + heuristiikkaa.
+  \item Zeen kaltainen systeemi
+\end{itemize}
+
+\subsection{Evennou\cite{evennou2006advanced}}
+\begin{itemize}
+  \item Kalman-suodin wifi-paikannuksella ja PDR:llä.
+\end{itemize}
+
+\subsection{Groves\cite{groves2013principles}}
+\begin{itemize}
+  \item Kirja paikannuksesta
+\end{itemize}
+
+\subsection{Leppäkoski\cite{leppakoski2013pedestrian}}
+\begin{itemize}
+  \item CEKF PDR + WLAN, partikkelisuodin karttatiedolle.
+  \item Vyöhön kiinnitetty sensori
+\end{itemize}
+
+\subsection{Woodman\cite{woodman2009rf}}
+\begin{itemize}
+  \item Partikkelisuotimen initialisointi RF-signaalin perusteella. Osa
+    väitöskirjassa esitettyä menetelmää.
+\end{itemize}
+
+\subsection{Kunze\cite{kunze2009way}}
+\begin{itemize}
+  \item Käyttäjän kulkusuunnan estimointi kiihtyvyysanturidatasta
+    pääkomponenttianalyysilla.
+\end{itemize}
+
+\subsection{Stirling\cite{stirling2003innovative}}
+\begin{itemize}
+  \item Kokoelma PDR-tekniikoita
+  \item Kompassin kalibrointi
+\end{itemize}
+
+\subsection{Steinhoff\cite{steinhoff2010dead}}
+\begin{itemize}
+  \item PDR taskussa olevalla sensorilla
+  \item Askeltunnistus painovoiman suunnassa olevan kiihtyvyysanturidatan
+    varianssista.
+  \item Käyttäjän kulkusuunta gyroskooppidatasta (reiden pyörähtely) ja
+    PCA.
+\end{itemize}
+
 \cite{wang2012unsupervised}
 \cite{renaudin2013adaptative}
 \cite{madgwick2011estimation}
@@ -225,7 +272,9 @@ asdfasdafsdasasdf
 \section{Sanasto}
 
 \glsaddall
-\printglossaries
+\printglossary
+\glsaddall
+\printglossary[type=\acronymtype,title=Lyhenteet]
 
 \bibliographystyle{plainnat}
 \bibliography{kandi}
