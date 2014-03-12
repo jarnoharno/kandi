@@ -252,7 +252,7 @@ asdfasdafsdasasdf
 \begin{itemize}
   \item Kokoelma PDR-tekniikoita
   \item Kompassin kalibrointi
-\end{itemize}
+ \end{itemize}
 
 \subsection{Steinhoff\cite{steinhoff2010dead}}
 \begin{itemize}
@@ -263,9 +263,35 @@ asdfasdafsdasasdf
     PCA.
 \end{itemize}
 
-\cite{wang2012unsupervised}
-\cite{renaudin2013adaptative}
-\cite{madgwick2011estimation}
+\subsection{Wang\cite{wang2012unsupervised}}
+\begin{itemize}
+  \item UnLoc yhdistää laskelmasuunnistuksen, urban sensingin ja WiFi-osituksen.
+  \item Puhelin kerää sensoridataa, josta klusteroidaan maamerkkejä.
+  \item PDR: alipäästösuodin, etsitään vuorottelevat piikit.
+\end{itemize}
+
+\subsection{Renaudin\cite{renaudin2013adaptative}}
+\begin{itemize}
+  \item Askelluksen analysointi etukäteen ympäristössä, missä GPS-paikannus
+    on käytettävissä.
+  \item Askeleen pituuden ja tiheyden välille oletetaan malli, jonka parametrit
+    estimoidaan GPS-signaalin perusteella.
+  \item Kaksi mallia, joista toinen perustuu GPS:n antamaan paikkatietoon ja
+    toinen GPS-signaalin doppler-siirtymään.
+  \item Doppler-siirtymää on vähemmän herkkä häiriöille.
+\end{itemize}
+
+\subsection{Madgwick\cite{madgwick2011estimation}}
+\begin{itemize}
+  \item Laskennallisesti tehokas menetelmä suunnan laskemiseksi MARG-
+    mittausdatasta.
+  \item Perinteisillä Kalman-suotimiin perustuvilla menetelmillä on
+    useita heikkouksia: ne vaativat korkean näyttöönottotaajuuden, ovat
+    monimutkaisia ja vaikeita toteuttaa. Pyörimismekaniikka vaatii
+    suuren tilavektorin ja laajennetun Kalman-suotimen ja paljon
+    laskentatehoa.
+  \item Artikkelissa esitetty menetelmä käyttää kvaternioniesitystä suunnalle.
+\end{itemize}
 \cite{mautz2012indoor}
 \cite{faragher2012opportunistic}
 
