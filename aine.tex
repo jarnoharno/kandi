@@ -5,16 +5,18 @@
 \usepackage[numbers]{natbib}
 \usepackage[xindy,nonumberlist,acronym]{glossaries}
 \usepackage{hyperref}
+
+\input{glossary.tex}
+\makeglossaries
+
 \subject{Aine}
 \author{Jarno Leppänen}
 \title{Sisätilapaikannus matkapuhelimella}
 \date{18.2.2014}
+
 \begin{document}
 
 \maketitle
-\makeglossaries
-
-\input{glossary.tex}
 
 \tableofcontents
 
@@ -324,7 +326,11 @@ asdfasdafsdasasdf
   \item
 \end{itemize}
 
-\cite{faragher2012opportunistic}
+
+\subsection{Faragher\cite{faragher2012opportunistic}}
+\begin{itemize}
+  \item asdf
+\end{itemize}
 
 \subsection{Sand\cite{sand2014positioning}}
 \begin{itemize}
