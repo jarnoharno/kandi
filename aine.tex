@@ -323,13 +323,20 @@ asdfasdafsdasasdf
     poliisi ja palokunta, liikenne, teollisuus, museot, $\dots$
   \item Vaatimuksia: tarkkuus, kattavuus, hinta, infrastruktuuri,
     markkinoiden valmius, yksityisyys, $\ldots$
-  \item
 \end{itemize}
 
 
 \subsection{Faragher\cite{faragher2012opportunistic}}
 \begin{itemize}
-  \item asdf
+  \item On tärkeää testata radiokarttojen "temporaalista staattisuushypoteesia",
+    eli pysyvätkö mitatut radiosormenjäljet vakaina.
+  \item DPSLAM: kerätään samanaikaisesti radiosormenjälkiä ja
+    inertiaalinavigaatiodataa ja mahdollisuuksien mukaan otetaan kiinteä
+    sijaintitieto GPS-signaalista. Mitattuja sormenjälkitietoja verrataan
+    aiemmin tallennettuihin ja säädetään sijaintipartikkelin todennäköisyyttä
+    vastaavasti.
+  \item Testilaitteistossa vyötärölle kiinnitetty IMU, partikkelisuodin, jossa
+    muuttujina askelpituus, kompassivirhe ja paikka 2d-koordinaatistossa.
 \end{itemize}
 
 \subsection{Sand\cite{sand2014positioning}}
@@ -338,8 +345,14 @@ asdfasdafsdasasdf
     Systems"
 \end{itemize}
 
-\cite{zhu2012improving}
+\subsection{Zhu\cite{zhu2012improving}}
+\begin{itemize}
+  \item Joukkoutettu (crowdsourced) kalibrointi WiFi- ja
+    Bluetooth-radiokartoille.
+  \item Bluetooth-majakat tulleet suosituiksi
+\end{itemize}
 
+\subsection{Huomioita}
 \begin{itemize}
 	\item Bluetooth-radiomajakat ovat tulossa vahvasti markkinoille
 	\item Näiden käyttö paikannukseen on ongelmallista kalibroinnin puutteen
