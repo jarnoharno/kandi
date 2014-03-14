@@ -1,13 +1,13 @@
-\documentclass[a4paper]{scrartcl}
+\documentclass[a4paper,parskip=half]{scrartcl}
 \usepackage[finnish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{verbatim}
 \usepackage[numbers]{natbib}
-%\usepackage[xindy,nonumberlist,acronym]{glossaries}
 \usepackage{hyperref}
+\usepackage[nonumberlist,acronym]{glossaries}
 
-%\input{glossary.tex}
-%\makeglossaries
+\makeglossaries
+\input{glossary.tex}
 
 \subject{Aine}
 \author{Jarno Leppänen}
@@ -18,40 +18,79 @@
 
 \maketitle
 
-\tableofcontents
+%\tableofcontents
 
 \section{Johdanto}
 
-Älypuhelimien ja muiden mobiililaitteiden yleistymisen myötä kiinnostus
-luotettavan paikkatiedon hyödyntämiseen on kasvanut\cite{harle2013survey}.
-Tämän päivän tyypillinen älypuhelin tarjoaa käyttäjälleen paikalliset uutiset
-ja sääennusteen, ohjaa hampurilaistilauksen lähimpään pikaruokalaan, suunnistaa
-autoilijan perille ruuhkia välttäen sekä seuraa niin kuntoilijan
-kalorikulutusta kuin pyöräilijän ajokilometrejäkin.
+Mobiililaitteiden yleistymisen myötä kiinnostus paikkatietoa hyödyntäviä
+sovelluksia kohtaan on kasvanut\cite{harle2013survey}. Tyypillinen älypuhelin
+tarjoaa tänä päivänä käyttäjälleen esimerkiksi paikallisen sääennusteen, ohjaa
+autoilijan perille välttäen pahimpia ruuhkia sekä seuraa kuntoilijan
+kalorikulutusta ja juoksureittiä kartalla.
 
-Tarkkaan paikannukseen perustuvien sovellusten yleistymisen on mahdollistanut
-satelliittipaikannuksen (GNSS) ja erityisesti GPS-järjestelmän käyttöönotto
-mobiililaitteissa. Satelliittipaikannus toimii kuitenkin huonosti
-sisätiloissa
-Sisätiloissa tapahtuvalle paikannukselle on monia sovellusmahdollisuuksia. 
+Tarkkaan paikkatietoon perustuvien sovellusten yleistymisen on mahdollistanut
+satelliittipaikannuksen (\acrshort{GNSS}) ja erityisesti
+\acrshort{GPS}-järjestelmän käyttöönotto mobiililaitteissa. Ulkotiloissa
+satelliittipaikannuksella saavutetaan erinomainen tarkkuus ja globaali
+kattavuus, mutta sisätiloissa satelliittipaikannus toimii huonosti, sillä se
+vaatii lähes esteettömän näkymän vastaaottimen ja satelliitin välillä. Suurin
+osa mobiililaitteiden käyttäjien ajasta kuluu kuitenkin sisätiloissa, joten
+sisätilapaikannusmenetelmien tutkimukseen on panostettu viime vuosina
+merkittävästi.
 
-
-Satelliittipaikannus toimii kuitenkin signaalin
-heikkenemisen ja heijastumien takia huonosti sisätiloissa.
-
-Sisätiloissa tapahtuvalle paikannukselle on useita sovelluksia...
-
-Haasteellisuuteen on löydettävissä useita
-syitä\cite{mautz2012indoor}:
+Sisätilapaikannukselle on löydettävissä useita
+sovellusmahdollisuuksia\cite{mautz2012indoor}:
 \begin{itemize}
-  \item seinistä ja huonekaluista tapahtuvat heijastukset
-  \item suoran näköyhteyden puute lähettimen ja vastaanottimen välillä
-  \item signaalin heikkeneminen sisätiloissa olevien esteiden takia
-  \item muutokset signaalin kulussa ja voimakkuudessa läsnäolevien ihmisten
-    ja ympäristön muutosten takia
-  \item sisätiloissa tapahtuvan paikannuksen korkeampi tarkkuusvaatimus
-    ulkotilapaikannukseen verrattuna
+  \item Paikkatietoon perustuvat palvelut (\acrshort{LBS}), jossa sovellus
+    hyödyntää paikkatietoa tarjoten käyttäjälle kontekstiriippuvaista
+    informaatiota. Tällaisia palveluita voivat olla esimerkiksi
+    navigointipalvelut kauppakeskuksissa ja messuilla,
+    käyttäjää mahdollisesti kiinnostavien tuotteiden ja tarjousten esittely
+    kaupan tietyllä hyllyosastolla tai pysäkkikohtaisen aikataulun näyttäminen
+    bussipysäkillä.
+  \item Sosiaalisen median palvelut, kuten kumppanin löytäminen tai
+    kommunikointi ja toimintojen koordinointi ystävien kanssa.
+  \item Resurssien käytön tehostaminen optimoimalla rakennuste valaistusta ja
+    lämmitystä käyttäjien sijainnin perusteella.
+  \item Turvallisuuden parantaminen: käyttäjien sijainnin löytäminen
+    ja ohjaus poistumisteille hätätilanteessa ja palokunnan navigointi
+    sammutustehtävissä.
 \end{itemize}
+
+Sisätilapaikannukseen on kehitetty lukuisia menetelmiä ja alaan liittyvää
+kirjallisuutta on runsaasti. Menetelmät eroavat toisistaan huomattavasti
+kattavuuden, tarkkuuden, infrastruktuurivaatimusten ja järjestelmän hinnan
+osalta, eikä mikään niistä ole satelliittipaikannuksen tavoin saavuttanut
+merkittävää jalansijaa.
+
+Nykyisisten mobiililaitteiden ominaisuuksien ja olemassa olevan infrastruktuurin
+kannalta oleelliset sisätilapaikannukseen kehitetyt menetelmät perustuvat
+tietoliikenneyhteyksiin käytettävien langattomien verkkojen avulla tehtävään
+paikannukseen sekä mobiililaittessa olevien
+kiihtyvyysantureiden, gyroskoopin ja magneettikompassin avulla tehtävään
+inertiaalinavigaatioon.
+
+Langattomia verkkoja hyödyntävät paikannusmenetelmät perustuvat GSM-, WiFi-
+ja Bluetooth- verkkojen havainnointiin. Tietoliikenneverkkojen suunnittelussa 
+pyritään kuitenkin maksimoimaan verkon kattavuus
+ja minimoimaan tukiasemien kuuluvuusalueiden päällekkäisyys, mikä on
+vaikeuttanut näiden menetelmien käyttöönottoa. Hiljattain markkinoille tulleet
+\acrshort{BLE}-tekniikkaan perustuvat edulliset Bluetooth-majakat, joita
+asennetaan eritoten \acrshort{LBS}-palveluita silmällä pitäen saattavat
+tulevaisuudessa helpottaa merkittävästi sisätilapaikannusta
+\cite{sand2014positioning}.
+
+Mobiililaitteiden sensoreilla tehtävä inertiaalinavigaatio on minimaalisten
+infrastruktuurivaatimustensa takia kiinnostava teknologia sisätiloissa
+tapahtuvaan paikannukseen. Näiden menetelmien ongelmana on mobiililaitteissa
+käytettyjen \acrshort{MEMS}-sen\-so\-rei\-den e\-pä\-tark\-kuus ja toisaalta menetelmälle
+ominainen paikannusvirheen kumuloituminen. Inertiaalinavigaatio tarvitseekin
+tyypillisesti jonkin absoluuttisen paikannusmenetelmän avukseen, jotta
+paikannuksen virhe ei kasva liian suureksi. Inertiaalinavigaatiota on
+viime aikoina hyödynnetty lupaavasti myös langattomiin verkkoihin perustuvassa
+paikannuksessa tarvittavaan radiosignaalikartan muodostamiseen.
+
+\printglossary[type=\acronymtype,title=Lyhenteet]
 
 \bibliographystyle{plainnat}
 \bibliography{kandi}

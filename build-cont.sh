@@ -1,2 +1,2 @@
 #!/bin/bash
-latexmk -outdir=build -pdf -pvc -view=none $*
+latexmk -f -outdir=build -pdf -pvc -view=none $*
