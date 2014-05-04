@@ -1,0 +1,215 @@
+\section{Johdanto}
+
+Tässä työssä tarkastellaan älylaitteessa olevien sensoreiden hyödyntämistä
+sisätilapaikannuksessa. 
+
+Siä
+
+Älylaitteella tarkoitetaan tässä kannettavaa verkkoon kytkettyä laitetta, joka
+sisältää laskelmasuunnistuksessa tarvittavia sensoreita. Näihin sensoreihin
+kuuluu kiihtyvyysanturi, gyroskooppi, magnetometri sekä joskus myös
+ilmanpainemittari.
+
+Mautz, haasteet \cite{mautz2012indoor}
+
+
+\section{Radiosignaaliin perustuva paikannus}
+
+GPS
+
+Etäisyys ja kulmamittaus
+
+Proximity
+
+Radiosormenjälkiin (fingerprinting) perustuvissa menetelmissä kohteena olevasta
+sisätilasta kartoitetaan riittävällä tarkkuudella WLAN-tukiasemien voimakuudet
+ja ratkaistaan käyttäjän sijainti vertaamalla signaalien voimakkuutta
+aiemmin kartoitettuun...
+
+Ongelmana näille menetelmille on kalibrointidatan keräämisen korkea kustannus.
+
+Deterministisessä paikannuksessa sijaintia ei oleteta satunnaismuuttujaksi,
+jolloin se voidaan laskea esimerkiksi k:n lähimmän naapurin menetelmällä...
+
+Sijainti voidaan laskea myös olettamalla sijainti satunnaismuuttujaksi
+ja laskemalla sen posteriorijakauma sormenjälkimittauksia käyttäen...
+
+Log-etäisyysmalli kuvaa signaalin vaimenemista etäisyyden funktiona...
+
+Tukiasemien lähetysvoimakkuus, signaalin varjostumista kuvaavat parametrit
+voidaan ratkaista sormenjälkimittauksista...
+
+\section{Jalankulkijan laskelmasuunnistus}
+
+Jalankulkijan laskelmasuunnistuksella (PDR; engl: Pedestrian Dead Reckoning)
+tarkoitetaan käyttäjän sijainnin laskentaa käyttäjän mukana olevan laitteen
+sensoreista saatavan tiedon perusteella. Tavallisesti nämä sensorit ovat
+kiihtyvyysantureita ja gyroskooppeja, mutta menetelmässä voidaan hyödyntää myös
+magnetometreja sekä ilmanpaineantureita.
+
+Laskelmasuunnistuksessa tarkastellaan paikan muutosta edelliseen
+mittauspisteeseen verrattuna, joten menetelmä vaatii tiedon käyttäjän
+lähtötilasta. Laskelmasuunnistus toimii siis ilman laitteen ulkopuolista
+infrastruktuuria, mutta paikannuksen virhe kumuloituu ajan myötä ilman
+sijainnin ajoittaista päivitystä absoluuttisen paikannusjärjestelmän
+avulla.
+
+\subsection{Inertiaalinavigointi}
+
+Inertiaalinavigoinnissa inertiaalimittausyksikön (IMU; engl: Inertial
+Measurement Unit) sijainti lasketaan suhteessa sen alkusijaintiin,
+-kulkusuuntaan ja -nopeuteen. IMU sisältää kolme toisiinsa nähden
+ortogonaalista kiihtyvyysanturia ja gyroskooppia.
+Inertiaalinavigointijärjestelmä (INS; engl: Inertial Navigation System) koostuu
+IMU:stä sekä navigointiprosessorista, joka huolehtii sijainnin laskennasta
+sensoreista saatavan mittaustiedon perusteella. Kulkusuunta lasketaan
+integroimalla gyroskoopeista saatava kulmanopeus ajan suhteen ja lisäämällä
+tulos edellisen mittauspisteen kulkusuuntaan. Järjestelmän todellinen
+kiihtyvyys taas saadaan vähentämällä painovoiman aiheuttama näennäiskiihtyvyys
+kiihtyvyysantureiden mittaamasta spesifisestä kiihtyvyydestä ja nopeus
+integroimalla todellinen kiihtyvyys ajan suhteen ja lisäämällä tulos edellisen
+mittauspisteen nopeuteen. Sijainti saadaan lopuksi intgeroimalla nopeus ja
+lisäämällä edellisen mittauspisteen sijaintiin.
+
+Seurattavan laitteen kiihtyvyyden ja kulmanopeuden on pysyttävä sensorien
+mittausalueen rajoissa, mutta muita oletuksia laitteen liikkeen dynamiikasta ei
+tehdä, joten paikannuksen virhe kasvaa suhteessa seuranta-ajan kuutioon.
+Edellä kuvatulla tavalla toteutettuja inertiaalinavigointijärjestelmiä on
+käytössä lentokoneissa, ohjuksissa ja sukellusveneissä, mutta älylaitteissa
+käytettävien mikrosysteemiantureiden (MEMS; engl: Microelectromechanical
+Systems) tarkkuus ei tällä hetkellä riitä rajoittamattoman
+inertiaalinavigaation toteuttamiseen. On lisäksi huomattava, ettei
+paraskaan INS voi toimia täysin itsenäisesti ilman absoluuttisen
+paikannusjärjestelmän apua painovoiman mikroskooppisesta vaihtelusta ja
+kumuloituvasta virheestä johtuen.
+
+Sensoreissa esiintyvien mittausvirheiden vaikutus minimoidaan tavallisesti
+hyödyntämällä Kalman-suodinta. Kalman-suodin on rekursiivinen algoritmi,
+jonka avulla voidaan tuottaa optimaalinen estimaatti fysikaalisen systeemin
+tilasta olettaen systeemin tilan prosessi- ja mittausvirheen tilastolliset
+ominaisuudet tunnetuiksi.
+
+Kulkusuunnan korjauksessa voi hyödyntää magnetometriä, jonka avulla voidaan
+selvittää laitteen asento maapallon magneettiseen napaan nähden. Sisätiloissa
+magnetometrin antamat mittaustulokset vaihtelevat kuitenkin huomattavasti
+rakennuksissa olevien metallirakenteiden ja sähkölaitteiden aiheuttamien
+häiriöiden vuoksi.
+
+Korkeutta merenpinnasta voidaan arvioida ilmanpainemittarilla. Jalankulkijan
+tapauksessa tästä on hyötyä esimerkiksi monikerroksisten rakennusten
+sisällä tapahtuvassa paikannuksessa.
+
+
+
+
+Inertiaalinavigoinnin tarkkuutta 
+
+
+
+
+Kalman-suodi
+
+ZUPT
+
+\subsection{SHS}
+
+Askeleen tunnistus
+
+Steinhoffin järjestelmässä \cite{steinhoff2010dead} taskussa olevan
+kiihtyyvyysanturin painovoiman suuntaisesta varianssista tunnistettiin
+askeleet
+
+Renaudin olettaa käyttäjän askelpituuden ja askeltiheyden välille mallin,
+jonka parametrit estimoidaan tilanteessa, missä GPS-paikannus toimii.
+
+\subsection{Kulkusuunta}
+
+Käyttäjän mukana oleva älylaite voi olla missä asennossa tahansa suhteessa
+käyttäjän kulkusuuntaan. Laite voi lisäksi kulkea mukana esimerkiksi
+taskukssa, laukussa tai kädessä.
+
+Kunze \cuite{kunze2009way} pääkomponenttianalyysi
+
+Steinhoff laski kulkusuunnan taskussa reittä vasten olevan sensorin
+kulmamuutoksista ja PCA...
+
+Madgwick \cite{madgwick2011estimation} kehitti menetelmän kulkusuunnan
+laskemiseksi MARG-mittausdatasta.
+Menetelmässä suunta ratkaistaan minimoimalla kvaternioniesitys...
+
+Zee-järjestelmässä \cite{rai2012zee} käyttäjän suunta tunnistettiin 3-akselisen
+kiihtyvyysanturin tuottaman aikasarjan pääkomponenttianalyysistä sekä
+autokorrelaatiosta. Liikkeen suunnassa perustaajuus on voimakkaimmillaan
+ja liikettä vastaan kohtisuorassa suunnassa ensimmäinen yläsäveltajuus
+on voimakkain...
+
+\subsection{Karttatiedon käyttäminen rajoitusehtona}
+
+Sisätilassa olevia esteitä voidaan hyödyntää laskelmasuunnistuksessa
+estämään mahdottomat trajektorit.
+
+Partikkelisuotimessa käyttäjän tila
+esitetään partikkelien muodostamana todennäköisyyspilvenä...
+
+Suodin on iteratiivinen ja sisältää seuraavat vaiheet: päivitys, korjaus,
+uudelleennäyteistys
+
+Woodman ja Harle käyttävät menetelmässään \cite{woodman2009rf} priorijakaumassa
+4 miljoonaa partikkelia...
+
+\section{Hybridijärjestelmät}
+
+Suurin este sormenjälkimenetelmien hyödyntämisessä on radiokartoituksen
+suorittaminen ja ylläpito. Laskelmasuunnistusta voidaan käyttää tässä apuna...
+
+Woodman ja Harle hyödynsivät kenkään kiinnitettyä sensoria radiokartoituksen
+tekemiseen...
+
+Rain zee kerää paikannusjärjestelmän käyttäjiltä samanaikaisesti
+radiosormenjälkidataa...
+
+Faragher \cite{faragher2012opportunistic} kerää käyttäjiltä radiosormenjälkien
+ja inertiaalidatan lisäksi GPS-dataa
+
+Leppäkoski \cite{leppakoski2013pedestrian} käytti laajennettua Kalman-suodinta
+ja vyöhön kiinnitettyä sensoria laskelmasuunnistuksen ja
+wlan-paikannuksen yhdistämiseen...
+
+\section{Yhteenveto}
+
+Älylaitteissa yleistyneet MEMS-sensorit eivät ole riittävän tarkkoja
+inertiaalinavigaation toteuttamiseen. Hyviä tuloksia on saatu aikaan
+ainoastaan kenkään kiinnitetyllä IMU:lla, jolloin sensorin asentoa ja liikettä
+voidaan rajoittaa (ZUPT). Vapaasti käyttäjän yllä olevilla laitteilla
+SHS-menetelmät ovat osoittautuneet lupaaviksi.
+
+Sisätilojen karttatietoa partikkelisuotimella hyödyntävät järjestelmät
+kykenevät parhaimmillaan alle metrin paikannustarkkuuteen...
+
+Haasteena on älylaitteen sijainti käyttäjän yllä ja käyttäjän erilaiset
+toimet paikannuksen aikana. Järjestelmät toimivat hyvin, jos käyttäjä
+on jatkuvassa liikkeessä...
+
+Suomalainen kaupallisessa käytössä oleva
+Moves-älypuhelinsovellus tunnistaa käyttäjän modaliteetin, paikan ja
+sisältää tarkan askelmittarin. Esimerkiksi askelluksen tunnistus suoritetaan
+aluksi epätarkasti puhelimella, mutta myöhemmin palvelimella analysoidaan
+sensoridataa ja tarkennetaan estimaattia kuljettujen askelten määrästä.
+
+Hemminki et. al hyödyntää kiihtyvyysanturidataa käyttäjän modaliteetin
+tunnistamiseen ja tunnistaa, jos käyttäjä istuu autossa tai kävelee tjsp.
+
+Radiosignaaliin perustuvien absoluuttisten paikannusjärjestelmä
+ja laskelmasuunnistus voidaan yhdistää monella tavalla. Lupaavimmiksi
+ovat osoittautuneet järjestelmät, joissa sormenjälkiaineistoa täydennetään
+käyttäjien laskelmasuunnistusta hyödyntäviltä älylaitteilta ja 
+toisaalta absoluuttiselta paikannusjärjestelmältä hödynnetään
+opportunistisesti laskelmasuunnistuksen yhteydessä. Laskelmasuunnistus ja
+WiFi-paikannus täydentävät näin toisiaan: 
+
+Radiosormenjälkiä voidaan hyödyntää WiFi-järjestelmien lisäksi myös
+GSM- ja Bluetooth-verkoissa sekä RFID-tunnisteissa. Älylaitteissa yleistyvä
+matalaenerginen
+Bluetooth-standardi ja tätä teknologiaa hyödyntävät edulliset bluetooth-majakat
+saattavat lähitulevaisuudessa olla merkittävä ... WifiSLAM
+
