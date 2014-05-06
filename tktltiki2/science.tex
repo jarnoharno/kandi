@@ -1,25 +1,30 @@
 \section{Johdanto}
 
-Tässä työssä tarkastellaan älylaitteessa olevien sensoreiden hyödyntämistä
-sisätilapaikannuksessa. 
+TODO
 
-Siä
+Tässä työssä tarkastellaan älylaitteessa olevien sensoreiden hyödyntämistä
+sisätilapaikannuksessa.
 
 Älylaitteella tarkoitetaan tässä kannettavaa verkkoon kytkettyä laitetta, joka
 sisältää laskelmasuunnistuksessa tarvittavia sensoreita. Näihin sensoreihin
 kuuluu kiihtyvyysanturi, gyroskooppi, magnetometri sekä joskus myös
 ilmanpainemittari.
 
-Mautz, haasteet \cite{mautz2012indoor}
-
+Mautz, haasteet \cite{mautz2012}
 
 \section{Radiosignaaliin perustuva paikannus}
+
+TODO
 
 GPS
 
 Etäisyys ja kulmamittaus
 
 Proximity
+
+\subsection{Radiosormenjälkimenetelmät}
+
+TODO
 
 Radiosormenjälkiin (fingerprinting) perustuvissa menetelmissä kohteena olevasta
 sisätilasta kartoitetaan riittävällä tarkkuudella WLAN-tukiasemien voimakuudet
@@ -62,154 +67,373 @@ Measurement Unit) sijainti lasketaan suhteessa sen alkusijaintiin,
 ortogonaalista kiihtyvyysanturia ja gyroskooppia.
 Inertiaalinavigointijärjestelmä (INS; engl: Inertial Navigation System) koostuu
 IMU:stä sekä navigointiprosessorista, joka huolehtii sijainnin laskennasta
-sensoreista saatavan mittaustiedon perusteella. Kulkusuunta lasketaan
+sensoreista saatavan mittaustiedon perusteella. Useimmiten IMU asennetaan
+seurattavaan laitteeseen kiinteästi (strapdown) \cite{harle2013}.
+
+Kiinteässä konfiguraatiossa kulkusuunta lasketaan
 integroimalla gyroskoopeista saatava kulmanopeus ajan suhteen ja lisäämällä
 tulos edellisen mittauspisteen kulkusuuntaan. Järjestelmän todellinen
 kiihtyvyys taas saadaan vähentämällä painovoiman aiheuttama näennäiskiihtyvyys
 kiihtyvyysantureiden mittaamasta spesifisestä kiihtyvyydestä ja nopeus
 integroimalla todellinen kiihtyvyys ajan suhteen ja lisäämällä tulos edellisen
-mittauspisteen nopeuteen. Sijainti saadaan lopuksi intgeroimalla nopeus ja
+mittauspisteen nopeuteen. Sijainti saadaan lopuksi integroimalla nopeus ja
 lisäämällä edellisen mittauspisteen sijaintiin.
 
 Seurattavan laitteen kiihtyvyyden ja kulmanopeuden on pysyttävä sensorien
 mittausalueen rajoissa, mutta muita oletuksia laitteen liikkeen dynamiikasta ei
 tehdä, joten paikannuksen virhe kasvaa suhteessa seuranta-ajan kuutioon.
-Edellä kuvatulla tavalla toteutettuja inertiaalinavigointijärjestelmiä on
-käytössä lentokoneissa, ohjuksissa ja sukellusveneissä, mutta älylaitteissa
-käytettävien mikrosysteemiantureiden (MEMS; engl: Microelectromechanical
-Systems) tarkkuus ei tällä hetkellä riitä rajoittamattoman
-inertiaalinavigaation toteuttamiseen. On lisäksi huomattava, ettei
-paraskaan INS voi toimia täysin itsenäisesti ilman absoluuttisen
-paikannusjärjestelmän apua painovoiman mikroskooppisesta vaihtelusta ja
-kumuloituvasta virheestä johtuen.
+Lentokoneiden, sukellusveneiden ja ohjusten inertinaalinavigointijärjestelmissä
+käytettävät erittäin tarkat sensorit mahdollistavat laskelmasuunnisuksen
+tuntien aikaväleillä ilman, että paikannuksen virhe kasvaa merkittäväksi.
+Älylaitteissa käytettävien mikrosysteemiantureiden (MEMS; engl:
+Microelectromechanical Systems) tarkkuus ei tällä hetkellä riitä edellä kuvatun
+kaltaisen rajoittamattoman inertiaalinavigaation toteuttamiseen. On lisäksi
+huomattava, ettei paraskaan INS voi toimia täysin itsenäisesti ilman
+absoluuttisen paikannusjärjestelmän apua painovoiman mikroskooppisesta
+vaihtelusta ja laskelmasuunnistuksen kumuloituvasta virheestä johtuen.
 
 Sensoreissa esiintyvien mittausvirheiden vaikutus minimoidaan tavallisesti
-hyödyntämällä Kalman-suodinta. Kalman-suodin on rekursiivinen algoritmi,
-jonka avulla voidaan tuottaa optimaalinen estimaatti fysikaalisen systeemin
+hyödyntämällä Kalman-suodinta.
+Kalman-suodin on rekursiivinen algoritmi,
+jonka avulla voidaan tuottaa optimaalinen estimaatti lineaarisen
+fysikaalisen systeemin
 tilasta olettaen systeemin tilan prosessi- ja mittausvirheen tilastolliset
-ominaisuudet tunnetuiksi.
+ominaisuudet tunnetuiksi. Kalman-suodin voidaan nähdä myös Bayes-suotimen
+erikoistapauksena,
+jossa tila- ja mittasiirtymäfunktiot ovat lineaarisia ja virheet
+normaalijakautuneita. INS-järjestelmän standarditoteutuksessa
+käytetään laajenettua epälineaarista Kalman-suodinta, jonka tilamuuttujina
+ovat sensoreiden virheet \cite{foxlin2005}.
 
-Kulkusuunnan korjauksessa voi hyödyntää magnetometriä, jonka avulla voidaan
-selvittää laitteen asento maapallon magneettiseen napaan nähden. Sisätiloissa
-magnetometrin antamat mittaustulokset vaihtelevat kuitenkin huomattavasti
-rakennuksissa olevien metallirakenteiden ja sähkölaitteiden aiheuttamien
-häiriöiden vuoksi.
+Kulkusuunnan korjauksessa voidaan hyödyntää magnetometriä, jonka avulla on
+mahdollista selvittää laitteen asento maapallon magneettiseen napaan nähden.
+Sisätiloissa magnetometrin antamat mittaustulokset vaihtelevat kuitenkin
+huomattavasti rakennuksissa olevien metallirakenteiden ja sähkölaitteiden
+aiheuttamien häiriöiden vuoksi.
 
 Korkeutta merenpinnasta voidaan arvioida ilmanpainemittarilla. Jalankulkijan
 tapauksessa tästä on hyötyä esimerkiksi monikerroksisten rakennusten
 sisällä tapahtuvassa paikannuksessa.
 
+\subsubsection{ZUPT}
 
-
-
-Inertiaalinavigoinnin tarkkuutta 
-
-
-
-
-Kalman-suodi
-
-ZUPT
+Inertiaalinavigoinnin kumuloituvaa virhettä voidaan pienentää ottamalla
+huomioon järjestelmässä esiintyviä rajoitusehtoja. Jalankulkijan paikannuksessa
+sensori voidaan esimerkiksi kiinnittää käyttäjän kantapäähän, jolloin
+sensori oletettavasti pysyy paikallaan askelten välissä jalan ollessa maassa.
+Tätä rajoitusehtoa kutsutaan nimellä Zero Velocity Update (ZUPT).
+ZUPT on yleinen PDR-sovelluksissa ja sitä hyödyntämällä on saavutettu
+vain 1--2\% virhe lasketusta matkasta.
 
 \subsection{SHS}
 
-Askeleen tunnistus
+Älylaitteiden MEMS-sensoreilla intertiaalinavigoinnin toteuttaminen ei
+nykyisellään ole mahdollista sensorien epätarkkuuden vuoksi.  PDR-sovelluksissa
+lupaavimmaksi lähestymistavaksi on osoittaunut askeleen ja kulkusuunnan
+tunnistavat menetelmät (SHS; engl: Step-and-Heading System), joissa
+jalankulkijan reitti lasketaan kulkusuuntaa ja askelpituutta kuvaavina
+askelvektoreina. SHS-järjestelmissä toiminta perustuu kolmeen vaiheeseen:
+askelten tunnistamiseen ja askeleen pituuden sekä askeleen kulkusuunnan
+arviointiin.
 
-Steinhoffin järjestelmässä \cite{steinhoff2010dead} taskussa olevan
-kiihtyyvyysanturin painovoiman suuntaisesta varianssista tunnistettiin
-askeleet
+\subsubsection{Askeleen tunnistus}
 
-Renaudin olettaa käyttäjän askelpituuden ja askeltiheyden välille mallin,
-jonka parametrit estimoidaan tilanteessa, missä GPS-paikannus toimii.
+Askeleen tunnistamisessa hyödynnetään jalankulkijan askelluksen jaksollisuutta.
+Useimmiten tunnistus perustuu pystysuunnassa tapahtuvan kiihtyvyysanturidataan,
+mutta myös gyroskooppidataa on voidaan hyödyntää. Eräs tapa askeltunnistukseen
+on tarkastella sensorin pystysuuntaisessa kiihtyvyydessä esiintyviä huippuja,
+jotka aiheutuvat jalan osumisesta maahan joka askeleella \cite{wang2012}.
+Toinen tapa on havainnoida pystysuuntaisessa todellisessa kiihtyvyydessä
+tapahtuvia nollan ylityksiä, joilla askelluksen jaksot voidaan tunnistaa
+\cite{fadjukoff2013}. Askeleet voidaan havaita myös pystysuuntaisen
+kiihtyvyysdatan liukuvan varianssin huippukohtina \cite{steinhoff2010}.
+Kiihtyvyysdatan liukuvaa autokorrelaatiosarjaa on mahdollista hyödyntää
+askelluksen jaksollisuuden havainnointiin. Esimerkiksi Rai et al.
+\cite{rai2012} hyödyntävät tätä menetelmää Zee-järjestelmässään.
 
-\subsection{Kulkusuunta}
+Käyttäjän mukana kulkeva älylaite, joka ei ole kiinteässä asennossa
+tai paikassa suhteessa käyttäjään, asettaa lisähaasteita sensoritiedon
+hyödyntämiselle. Esimerkiksi älylaitteen tuottama kiihtyvysanturidata
+on hyvin erilaista riippuen siitä, onko laite käyttäjän kädessä vai
+taskussa. Tässä työssä tutkituissa tapauksissa laite oli aina kiinteässä
+paikassa käyttäjän yllä, yleensä taskussa.
 
-Käyttäjän mukana oleva älylaite voi olla missä asennossa tahansa suhteessa
-käyttäjän kulkusuuntaan. Laite voi lisäksi kulkea mukana esimerkiksi
-taskukssa, laukussa tai kädessä.
+\subsubsection{Askelpituus}
 
-Kunze \cuite{kunze2009way} pääkomponenttianalyysi
+Yksinkertaisin tapa askelpituuden arviointiin on olettaa pituus tai
+sen muutos vakioksi. Esimerkiksi Woodman \cite{woodman2008} oletti
+askelpituuden muutoksen askelten välillä normaalijakautuneeksi siten,
+että muutoksen suuruus on nolla ja keskihajonta vakio. Askelpituus
+ei kuitenkaan tyypillisesti pysy vakiona, vaan riippuu muun muassa
+askeltiheydestä. Li \cite{li2012} sovitti käyttäjäkohtaisen lineaarisen
+mallin askeltiheyden ja -pituuden välille. Renaudin
+\cite{renaudin2013} oletti askelpituuden, käyttäjän oman pituuden sekä
+askeltiheyden välille mallin, jonka parametrit estimoitiin etukäteen
+tarkan satelliittipaikannuksen ja askelmittarin avulla.
 
-Steinhoff laski kulkusuunnan taskussa reittä vasten olevan sensorin
-kulmamuutoksista ja PCA...
+Inertiaalinavigaatiota voi käyttää SHS-järjestelmän osana sensorin radan
+laskentaan askeleen aikana. Tällaista SHS-INS-menetelmää käytetään,
+jos inertiaalinavigaatioon halutaan helposti sisällyttää korkeamman
+tason rajoitusehtoja, kuten karttatietoa \cite{woodman2008}. Menetelmä
+toimii parhaiten, jos sensori on asennettu käyttäjän jalkaan ja
+ZUPT-rajoitusehtoa on mahdollista käyttää.
 
-Madgwick \cite{madgwick2011estimation} kehitti menetelmän kulkusuunnan
-laskemiseksi MARG-mittausdatasta.
-Menetelmässä suunta ratkaistaan minimoimalla kvaternioniesitys...
+\subsubsection{Kulkusuunta}
 
-Zee-järjestelmässä \cite{rai2012zee} käyttäjän suunta tunnistettiin 3-akselisen
-kiihtyvyysanturin tuottaman aikasarjan pääkomponenttianalyysistä sekä
-autokorrelaatiosta. Liikkeen suunnassa perustaajuus on voimakkaimmillaan
-ja liikettä vastaan kohtisuorassa suunnassa ensimmäinen yläsäveltajuus
-on voimakkain...
+Kulkusuunnan muutoksen voi ratkaista integroimalla askeleen aikana
+gyroskoopilta kerättyä kulmanopeusdataa samalla tavalla kuin pelkässä
+inertiaalinavigoinnissa. Tämä toimii hyvin sovelluksissa, joissa
+laskelmasuunnistukseen käytetty sensori on kiinteässä asennossa suhteessa
+käyttäjään. Älylaitteen asento suhteessa käyttäjän kulkusuuntaan voi
+kuitenkin vaihdella: laite voi olla taskussa vaikkapa ylösalaisin.
+
+Vapaasti sijoitettavan sensorin tapauksessa kulkusuuntaa voidaan arvioida
+kiihtyvyysanturin tuottaman aikasarjan pääkomponenttianalyysin (PCA) avulla.
+Jalankulkijan kävellessä liikkeen tuottaman kiihtyvyysdatan suurin
+pääkomponentti vastaa kulkusuunnan suuntaista suoraa \cite{steinhoff2010}.
+Kulkusuunnan suuntaisen kiihtyvyyden fourier-muunnoksessa havaittavan
+perustaajuuden ensimmäinen harmoninen moninkerta on lisäksi voimakkain
+taajuus riippumatta sensorin sijainnista suhteessa käyttäjään
+\cite{rai2012}.
+Pääkomponentti ei
+kuitenkaan kerro, kumpaan suuntaan liike suuntautuu, joten suunnan
+selvittämiseksi on käytettävä lisäheuristiikkaa. Steinhoff
+\cite{steinhoff2010} kokeili useita menetelmiä suunnan estimoimiseksi
+ja saavutti taskussa olevalla älylaitteella suuntaestimaatille parhaimmillaan
+5.7 \% mediaanivirheen. Menetelmässä kiihtyvyysdata projisoitiin lattian
+suuntaiseen tasoon ja käsiteltiin alipäästösuotimella ennen
+pääkomponenttianalyysia. Tutkimuksessa liikkeen suunta ratkaistiin
+tarkastelemalla sensorin pyörimissuuntaa ennen jalan osumista maahan.
+
+Sensorin absoluuttinen suunta saadaan laskettua magnetometristä, jos paikallisen
+magneettikentän suunta tunnetaan. Sisätiloissa magneettikentän suunta
+kuitenkin vaihtelee huomattavasti. Rai \cite{rai2012} käytti kulkusuunnan
+arvioimiseen magnetometriä, kiinteää etukäteisarviota sisätilan
+magneettikentän suunnasta sekä kulun aikana vakiona pysyvää arviota
+sensorin asennosta suhteessa käyttäjän kulkusuuntaan. Sensorin asento
+laskettiin kiihtyvyysanturidatan perusteella. Yhdistettynä sensorin
+magentometrin antamaan tietoon voitiin ilman ylimääräistä
+heuristiikkaa selvittää, kumpaan suuntaan käyttäjän
+liike suuntautuu.
 
 \subsection{Karttatiedon käyttäminen rajoitusehtona}
 
-Sisätilassa olevia esteitä voidaan hyödyntää laskelmasuunnistuksessa
-estämään mahdottomat trajektorit.
+Inertiaalinavigaation ja SHS-järjestelmän merkittävänä haittapuolena on
+paikannuksen virheen kumuloituminen. Pitkän aikavälin laskelmausuunnistuksen
+virhettä voidaan pienentää ottamalla ympäristössä olevia rajoituksia
+huomioon. Esimerkiksi autonavigaatiojärjestelmissä auton sijainti pakotetaan
+tielle, vaikka GPS-paikantimen sijaintiestimaatti olisikin tien sivussa.
+Menetelmää kutsutaan nimellä karttasovitus (Map Matching) ja siinä
+tieverkosto esitetään yleensä graafina. Sisätiloissa jalankulkijan reittiä
+rajoittavia seiniä ja muita esteitä voidaan niin ikään hyödyntää paikannuksessa
+estämällä paikannusalgoritmin tuottamat mahdottomat reitit.
 
-Partikkelisuotimessa käyttäjän tila
-esitetään partikkelien muodostamana todennäköisyyspilvenä...
+Toisin kuin graafeina kuvatuissa autokartoissa, sisätilakartoissa esteet
+esitetään yleensä janoina, joiden läpi paikannusalgoritmin tuottama käyttäjän
+reitti ei voi kulkea. Sisätilakartat eivät toistaiseksi ole yleistyneet
+eikä vakiintunutta formaattia ole olemassa.
 
-Suodin on iteratiivinen ja sisältää seuraavat vaiheet: päivitys, korjaus,
-uudelleennäyteistys
+\subsubsection{Partikkelisuotimet}
 
-Woodman ja Harle käyttävät menetelmässään \cite{woodman2009rf} priorijakaumassa
-4 miljoonaa partikkelia...
+Suosituin menetelmä karttatietojen hyödyntämiseen sisätilapaikannuksessa
+SHS-menetelmän yhteydessä
+on käyttää partikkelisuotimia (PF; engl: Particle Filter).
+Partikkelisuodin on Bayes-suotimen numeerinen approksimaatio, jossa
+tilan todennäköisyysjakauma esitetään partikkelijoukkona
+\begin{align}
+\mathcal{S}_t &= \{\langle\mathbf{x}_t^i,w_t^i\rangle \ i = 1,\ldots,N\},
+\end{align}
+missä $\mathbf{x}_t^i$ on partikkelin $i$ tila ja $w_t^i$ sen painokerroin
+\cite{woodman2010}.
+Partikkelin painokerroin edustaa todennäköisyyttä, jolla tila vastaa
+systeemin todellista tilaa.
+
+Partikkelisuotimen tilan päivitykseen on kehitetty useita algoritmeja,
+joista suosituin on tärkeysotantaan perustuva SIR
+(Sampling-Importance-Resampling). SIR jakautuu kolmeen vaiheeseen.
+Ensin partikkelien tila $\mathbf{x}_{t-1}^i$ uudelleennäytteistetään
+partikkelijoukon $\mathcal{S}_{t-1}$
+määräämästä priorijakaumasta. Tämän jälkeen partikkelien tilat
+$\mathbf{x}_t^i$ päivitetään tilamallin jakauman
+$p(\mathbf{x}_t | \mathbf{x}_{t-1}^i)$ perusteella. Lopuksi 
+partikkelien painot $w_t^i$ päivitetään mittausmallin jakauman
+$p(\mathbf{z}_t | \mathbf{x}_t^i)$ perusteella, missä
+$\mathbf{x}_t$ on mittaus ajanhetkellä $t$.
+
+Uudelleennäytteistyksen tarkoituksena on poistaa partikkelipilvestä
+partikkelit, joiden paino on pieni ja toisaalta jakaa suuripainoiset
+partikkelit joukoksi pienempipainoisia partikkeleita.
+Uudelleennäytteistysalgoritmi pyrkii valitsemaan uudet partikkelit siten,
+että partikkelipilvi kuvaa mahdollisimman hyvin tilajakaumaa.
+
+Uudelleennäytteistykseen on kehitetty useita algoritmeja.
+Woodman \cite{woodman2008} käytti uudelleennäytteistykseen
+Kullback-Leibler-divergenssiin perustuvaa menetelmää. Joissain sovelluksissa
+uudelleennäytteistystä ei suoriteta joka askeleella, vaan ainoastaan jos
+esimerkiksi efektiivinen näytteitten määrä (ESS; engl: effective sample size)
+$\hat{N}_{\text{eff}} = 1 / \sum_{i=1}^N (w_k^i)^2$ alittaa tietyn
+raja-arvon \cite{fadjukoff2013}.
+
+SHS-järjestelmissä systeemin tilamuuttujina käytetään tyypillisesti
+kolmikkoa $\mathbf{x}_t = (x_t, y_t, \theta_t)$, missä $(x_t, y_t)$ kuvaa
+käyttäjän sijaintia koordinaatistossa ajanhetkellä $t$ ja $\theta_t$
+käyttäjän kulkusuuntaa. 
+Woodmanin \cite{woodman2008} järjestelmässä tilan päivitys tapahtui
+seuraavan mallin mukaisesti:
+\begin{align}
+  x_{t+1}       &= x_t + (l_t + n_t^l) \cos(\delta\theta_t + n_t^\theta) \\
+  y_{t+1}       &= y_t + (l_t + n_t^l) \sin(\delta\theta_t + n_t^\theta) \\
+  \theta_{t+1}  &= \theta_t + \delta\theta_t + n_t^\theta,
+\end{align}
+missä kaksikko $(l_t, \delta\theta_t)$ on askelluksen aikana toimivan
+INS-järjestelmän tuottama askeleen pituus ja kulkusuunnan muutos vastaavasti
+ajanhetkellä $t$. Kaksikko $(n_t^l, n_t^\theta)$ taas on näiden suureiden
+virhejakaumista generoitu satunnaislukupari.
+
+Karttatieto huomioidaan partikkelisuotimessa painotusvaiheessa. Yksinkertaisin
+ratkaisu on asettaa partikkelin painokerroin nollaksi, jos partikkelin
+kulkema jana leikkaa kartalla olevan seinän kanssa. Karttatiedoissa
+mahdollisesti esiintyvät virheet voidaan huomioida asettamalla
+uudeksi painoksi jokin edellisen painon murto-osa, jos reitti leikkaa
+esteen läpi \cite{fadjukoff2013}.
+
+Partikkelisuotimet mahdollistavat mutkikkaampienkin heuristiikkojen
+käytön joustavasti. Rain \cite{rai2012} Zee-järjestelmä esimerkiksi
+tallensi partikkelijoukon kulkeman reitin ja eliminoi tulevaisuudessa
+mahdottomaksi osoittautuneita reittejä backpropagation-algoritmilla, jolloin
+koko käyttäjän kulkema reitti pystyttiin ratkaisemaan.
+
+Partikkelisuotimet vaativat tyypillisesti runsaasti tallennuskapasiteettia
+ja laskentatehoa. Vaadittava partikkelimäärä tietyllä ajanhetkellä 
+on verrannollinen
+tilan todennäköisyysjakaumaan: mitä epävarmempi käyttäjän tila on, sitä
+useampi partikkeli tarvitaan edustamaan tilan todennäköisyysjakaumaa.
+Tilavaativuus kasvaa lisäksi eksponentiaalisesti
+Tilamuuttujavektorin dimensionaalisuuden kasvaessa.
+
+Alkutilassa partikkeleita tarvitaan eniten, jos käyttäjän sijaintia ei
+voida määrittää etukäteen. Alustukseen voi käyttää esimerkiksi
+GPS- tai WiFi-paikannusta \cite{woodman2009}. Woodman \cite{woodman2010}
+tunnisti kaksi tyypillistä
+vaihetta partikkelisuotimen laskennassa. Paikannusvaiheessa epävarmuus
+on suurta ja partikkelimäärä korkea. Seurantavaiheessa taas, jossa käyttäjän
+on jo pystytty paikantamaan, tilatodennäköisyysjakauma on keskittynyt, eikä
+partikkeleita tarvita niin montaa. Woodmanin tutkimuksessa 8725
+$\text{m}^2$ kokoisessa kolmikerroksisessa rakennuksessa täydellisen epävarman
+priorijakauman kuvaamiseen tarvittiin 4 miljoonaa partikkelia, kun taas
+seurantavaiheessa vain 500 partikkelia riitti kuvaamaan
+tilatodennäköisyysjakaumaa. Laskennan vaativuus asettaa merkittäviä
+haasteita, jos partikkelisuotimia halutaan hyödyntää älylaitteiden
+paikannuksessa.
 
 \section{Hybridijärjestelmät}
 
-Suurin este sormenjälkimenetelmien hyödyntämisessä on radiokartoituksen
-suorittaminen ja ylläpito. Laskelmasuunnistusta voidaan käyttää tässä apuna...
+Radiosignaalipaikannuksessa käytettävien sormenjälkimenetelmien suurimpana
+haittapuolena on kalibrointidatan keräämiseen liittyvät ongelmat.
+Radiosormenjälkiaineistoa tarvitaan paljon riittävän tarkkuuden saavuttamiseksi.
+Lisäksi aineston täytyy pysyä ajan tasalla
+ympäristössä olevien kiinteiden esteiden siirtyessä ja signaalilähteiden
+muuttuessa.
 
-Woodman ja Harle hyödynsivät kenkään kiinnitettyä sensoria radiokartoituksen
-tekemiseen...
+PDR-menetelmät voivat helpottaa radiokartoitusta automatisoimalla osan
+kartoituksen vaatimasta paikannuksesta. Woodman ja Harle \cite{woodman2008}
+hyödynsivät
+kenkään kiinnitettyä sensoria radiokartioituksen tekemiseen. Järjestelmä
+käytti laskelmasuunnistusta paikannukseen kartoittajan kävellessä
+ympäri rakennusta ja otti samalla radiosormenjälkinäytteitä. 
+Muodostettua radiokarttaa hyödynnettiin partikkelisuotimessa
+eliminoimalla tilat, joissa partikkeli ei voinut radiosormenjäljen
+perusteella olla.
 
-Rain zee kerää paikannusjärjestelmän käyttäjiltä samanaikaisesti
-radiosormenjälkidataa...
+WiFi-paikannus ja PDR toimivat optimaalisesti erilaisissa olosuhteissa
+ja usein täydentävät toisiaan.
+Leppäkoski et al. \cite{leppakoski2013} laativat
+järjestelmän, jossa
+sormenjälkiin perustuvaa paikannusta hyödynnettiin yhdessä 
+vyöhön kiinnitettyyn sensoriin perustuvan PDR-menetelmän
+kanssa laajennetulla Kalman-suotimella. Tutkimuksessa todettiin,
+että WiFi-paikannus tukee PDR-paikannusta sisätilan alueilla, joissa
+karttarajoitteita ei ole paljon. Toisaalta sormenjäljillä voidaan
+eliminoida rakennuksen eri osissa olevia partikkeleita.
 
-Faragher \cite{faragher2012opportunistic} kerää käyttäjiltä radiosormenjälkien
-ja inertiaalidatan lisäksi GPS-dataa
+Hybridilähestymistapaa voi hyödyntää myös käyttämällä PDR-menetelmän avulla
+kerättyä radiokarttaa suoraan WiFi-paikannukseen. Lupaavassa
+tutkimuksessaan Rai et al. \cite{rai2012} joukkoistivat radiokartoituksen
+käyttäjille, joiden älylaitteet tukivat PDR-menetelmää. Järjestelmä
+kykeni lisäksi päivittämään radiokarttaa jatkuvasti hödyntämään PDR-menetelmää
+valikoivasti riippuen käyttäjän älylaitteen ominaisuuksista. Tutkimuksessa
+kuvataan 15 tunnin koe yhdellä käyttäjällä, jossa muutaman tunnin aikana
+automaattisesti kerättyä radiokarttaa hyödynnetään onnistuneesti
+WiFi-paikannukseen. 
 
-Leppäkoski \cite{leppakoski2013pedestrian} käytti laajennettua Kalman-suodinta
-ja vyöhön kiinnitettyä sensoria laskelmasuunnistuksen ja
-wlan-paikannuksen yhdistämiseen...
+Faragher et. al \cite{faragher2012} kuvasivat järjestelmän, joka ei
+tukeutunut lainkaan keskitettyyn radio- tai sisätilakarttaan. Järjestelmä
+käytti kiihtyvyysanturi- ja magnetometridataa SHS-laskelmasuunnistukseen ja
+kartoitti samaan aikaan radiosormenjälkiä. Sormenjälkien samankaltaisuuteen
+perustuen järjestelmä havaitsi syklejä käyttäjän kulkemissa reiteissä
+ja kykeni näin muodostamaan sisätilassa havaituista alueista
+verkoston, jota voitiin käyttää navigointiin. Applen ostama WiFiSLAM
+on samankaltaiseen järjestelmään perustuva kaupallinen yritys.
 
 \section{Yhteenveto}
 
 Älylaitteissa yleistyneet MEMS-sensorit eivät ole riittävän tarkkoja
-inertiaalinavigaation toteuttamiseen. Hyviä tuloksia on saatu aikaan
-ainoastaan kenkään kiinnitetyllä IMU:lla, jolloin sensorin asentoa ja liikettä
-voidaan rajoittaa (ZUPT). Vapaasti käyttäjän yllä olevilla laitteilla
-SHS-menetelmät ovat osoittautuneet lupaaviksi.
+inertiaalinavigaation toteuttamiseen. Tarkkoja tuloksia
+pelkällä inertiaalinavigaatiojäjrjestelmällä
+on saatu aikaan
+ainoastaan kenkään kiinnitetyn IMU:n tapauksessa.
 
-Sisätilojen karttatietoa partikkelisuotimella hyödyntävät järjestelmät
-kykenevät parhaimmillaan alle metrin paikannustarkkuuteen...
+Vapaasti käyttäjän yllä olevilla laitteilla
+karttatietoa hyödyntäviin partikkelisuotimiin yhdistetyt SHS-järjestelmät ovat
+osoittautuneet lupaaviksi ratkaisuiksi.
+Nämä järjestelmät pystyvät parhaimmillaan seuraamaan jatkuvasti liikkeessä
+olevaa käyttäjää virheen kumuloitumatta, jos käyttäjä kulkee alueilla, joissa
+karttatiedon rajoitteita voi hyödyntää. Hetket, jolloin käyttäjä on paikallaan
+ovat osoittauneet ongelmallisiksi virheellisten askellusten myötä syntyvän
+paikannusvirheen takia.
 
-Haasteena on älylaitteen sijainti käyttäjän yllä ja käyttäjän erilaiset
-toimet paikannuksen aikana. Järjestelmät toimivat hyvin, jos käyttäjä
-on jatkuvassa liikkeessä...
+Sisätiloissa oleileva henkilö tyypillisesti pysyy osan ajasta paikallaan
+ja vaihtaa välillä paikkaa kävellen. Näissä tiloissa kunnollisesti toimiva
+SHS-paikannus edellyttää käyttäjän modaliteetin
+tunnistuksen yhdistämistä paikannusjärjestelmään.
+Järjestelmän on kyettävä tunnistamaan, onko käyttäjä kävelemässä vai paikallaan.
+Omat haasteensa tälle asettaa älylaitteen vapaa sijoittelu: käyttäjä voi
+pitää älylaitetta taskussaan, korvallaan, edessään tai vaikkapa pöydällä
+laitteeseen välillä tarttuen. Hemminki et al. \cite{hemminki2013} tunnistavat
+luokittelumenetelmiä hyödyntäen ajoneuvotyypin, jossa käyttäjä matkustaa
+tietyllä ajanhetkellä. Tutkimuksessa älylaitteen kiihtyvyysanturidatasta
+tunnistetaan piirteitä, joiden perusteella luokittelu tapahtuu. Suomalaisessa
+kaupallisessa Moves-älypuhelinsovelluksessa modaliteetin tunnistus yhdistetään
+paikannukseen, automaattiseen paikan tunnistukseen (engl: Place Detection)
+sekä askelmittariin. Menetelmä hyödyntää epätarkkaan välittömään tunnistamiseen
+älylaitteen paikallisia resursseja ja analysoi sensoridatan tarkemmin
+palvelimella korjaten aiemmassa analyysissa tapahtuneita virheitä.
 
-Suomalainen kaupallisessa käytössä oleva
-Moves-älypuhelinsovellus tunnistaa käyttäjän modaliteetin, paikan ja
-sisältää tarkan askelmittarin. Esimerkiksi askelluksen tunnistus suoritetaan
-aluksi epätarkasti puhelimella, mutta myöhemmin palvelimella analysoidaan
-sensoridataa ja tarkennetaan estimaattia kuljettujen askelten määrästä.
+PDR-järjestelmän ja radiosignaaliin perustuvan paikannuksen yhdistämiseen on
+kehitetty monia menetelmiä. Lupaavimmat järjestelmät ovat yhdistäneet
+Wifi-radiokartoituksen ja WiFi-paikannuksen PDR-menetelmiin.
+Nämä menetelmät tukevat toisiaan: PDR-menetelmissä tapahtuvaa virheen
+kumuloitumista voidaan kompensoida WiFi-paikannuksella ja toisaalta
+PDR-menetelmää hyödyntävällä joukkoistamisella voidaan helpottaa
+aikaavievää radiokartoitusta. PDR-menetelmillä on myös mahdollista paikata
+radiokartoituksessa olevia aukkoja, joissa sormenjälkiä on vähän tai 
+tukiasemien kuuluvuus on rajoitettu.
 
-Hemminki et. al hyödyntää kiihtyvyysanturidataa käyttäjän modaliteetin
-tunnistamiseen ja tunnistaa, jos käyttäjä istuu autossa tai kävelee tjsp.
+Näiden innovaatioiden hyödyntäminen ei rajoitu pelkästään WiFi-verkkoihin,
+vaikka suurin osa tähän astisesta tutkimuksesta on keskittynyt
+nimenomaan WiFi-paikannuksen ja PDR-menetelmien yhdistämiseen. Esimerkiksi
+lukuetäisyydeltään rajoitettujen RFID-tunnisteiden ja -lukijoiden avulla
+voidaan pienin kustannuksin kattaa suuri osa sisätilasta. PDR-menetelmällä
+pystyttäisiin hyvin kattamaan katvealueet, joissa RFID-tunnisteisiin
+perustuva paikannus ei toimi. Toinen lähitulevaisuudessa yleistyvä lupaava
+teknologia on matalaenergiset Bluetooth-laitteet (BLE; Bluetooth Low Energy).
+BLE-majakat ovat erittäin edullisia, toimivat yhdellä latauksella jopa
+vuosia ja mahdollistavat suurten aluiden kattamisen pienellä investoinnilla.
+Useimmat uudet älylaitteet tukevat BLE-standardia, joten teknologian
+hyödyntäminen olisi mahdollista suuressa mittakaavassa jo nyt.
 
-Radiosignaaliin perustuvien absoluuttisten paikannusjärjestelmä
-ja laskelmasuunnistus voidaan yhdistää monella tavalla. Lupaavimmiksi
-ovat osoittautuneet järjestelmät, joissa sormenjälkiaineistoa täydennetään
-käyttäjien laskelmasuunnistusta hyödyntäviltä älylaitteilta ja 
-toisaalta absoluuttiselta paikannusjärjestelmältä hödynnetään
-opportunistisesti laskelmasuunnistuksen yhteydessä. Laskelmasuunnistus ja
-WiFi-paikannus täydentävät näin toisiaan: 
-
-Radiosormenjälkiä voidaan hyödyntää WiFi-järjestelmien lisäksi myös
-GSM- ja Bluetooth-verkoissa sekä RFID-tunnisteissa. Älylaitteissa yleistyvä
-matalaenerginen
-Bluetooth-standardi ja tätä teknologiaa hyödyntävät edulliset bluetooth-majakat
-saattavat lähitulevaisuudessa olla merkittävä ... WifiSLAM
-
+Vaikuttaa todennäköiseltä, että tulevaisuudessa tullaan näkemään
+järjestelmiä, jotka hyödyntävät erilaisia radioverkkoja
+tilannekohtaisesti absoluuttiseen paikannukseen. Kehittyvät PDR- ja
+hybridimenetelmät yhdessä uusien verkkojen kanssa voivat osoittautua
+ratkaisuiksi tarkkaan sisätilapaikannukseen.
