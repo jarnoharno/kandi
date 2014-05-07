@@ -2,7 +2,7 @@
 
 Älylaitteilla käytetään yhä enenevässä määrin erilaisia paikkatietoa
 hyödyntäviä palveluita. Tätä kehitystä on edistänyt
-toimiva GPS-satelliittipaikannusjärjestelmä, joka
+toimiva GPS-satelliitti\-paikannus\-järjestelmä, joka
 on vakiinnuttanut asemansa älylaitteiden paikannusmenetelmänä. GPS toimii
 hyvin ulkotiloissa, missä radiosignaali pääsee etenemään lähes esteettä
 lähettimenä toimivan satelliitin ja maanpäällisen vastaanottimen välillä,
@@ -187,13 +187,24 @@ radiokartoitukseen liittyvät kustannukset sekä radiokartan ajantasaisuus.
 Paikannustarkkuus on sitä parempi, mitä tarkempi kerätty radiokartta on.
 Muuttuvat ympäristön olosuhteet taas aiheuttavat muutoksia
 eri paikoissa havaittujen signaalien voimakkuuksiin. Radiokartta voi
-muuttua voimakkaasti jopa tilassa kulkevien henkilöiden sekä vuodenaikojen
-mukaan.
+muuttua voimakkaasti avautuvien ovien ja jopa tilassa kulkevien henkilöiden
+sekä vuodenaikojen mukaan.
 
-Ristiriita paikannuksen ja tietoliikenneverkon tavoitteiden välillä...
+Eräs ongelma langattomien tietoliikenneverkkojen hyödyntämisessä
+sormenjälkiin perustuvassa paikannuksessa on tietoliikenneverkkojen
+ja paikannusjärjestelmien erilaiset vaatimukset.
+Sormenjälkipaikannusjärjestelmä on yleensä sitä parempi, mitä suurempi
+on yksittäisen sormenjäljen dimensionaalisuus \cite{harle2013}. Paikannus vaatii,
+että tukiasemien peitot leikkaavat toisiaan riittävästi, jotta jokaisessa
+pisteessä radiokartan sormenjälki on uniikki. Tietoliikenneverkoissa taas
+infrastruktuuriresurssien tehokas käyttö edellyttää, ettei tukiasemia
+ole tarpeettomat montaa samalla alueella. WLAN-verkoissa päällekkäiset
+verkot saattavat itse asiassa heikentää verkkojen suorituskykyä päällekkäisten
+signaalien interferenssin takia \cite{ergin2007}.
 
-WLAN-verkkoihin perustuvat sormenjälkimenetelmät ovat olleet suosituimpia
-tutkimuskohteita, mutta menetelmää voidaan hyödyntää muunkin tyyppisissä
+Tähän astisissa tutkimuksissa WLAN-verkkoihin perustuvat sormenjälkimenetelmät
+ovat olleet suosituimpia tutkimuskohteita, mutta menetelmää voidaan hyödyntää
+muunkin tyyppisissä
 radioverkoissa. Itse asiassa sormenjälkimenetelmä on sovellettavissa
 millaisiin havaintoihin tahansa: suomalainen InDoor Atlas on
 esimerkiksi kehittänyt magneettikentän kartoitukseen perustuvaa
@@ -477,7 +488,7 @@ systeemin todellista tilaa.
 
 Partikkelisuotimen tilan päivitykseen on kehitetty useita algoritmeja,
 joista suosituin on tärkeysotantaan perustuva SIR
-(Sampling-Importance-Resampling). SIR jakautuu kolmeen vaiheeseen.
+(Sampling\hyp{}Importance\hyp{}Resampling). SIR jakautuu kolmeen vaiheeseen.
 Ensin partikkelien tila $\mathbf{x}_{t-1}^i$ uudelleennäytteistetään
 partikkelijoukon $\mathcal{S}_{t-1}$
 määräämästä priorijakaumasta. Tämän jälkeen partikkelien tilat
@@ -557,7 +568,8 @@ paikannuksessa.
 
 Radiosignaalipaikannuksessa käytettävien sormenjälkimenetelmien suurimpana
 haittapuolena on kalibrointidatan keräämiseen liittyvät ongelmat.
-Radiosormenjälkiaineistoa tarvitaan paljon riittävän tarkkuuden saavuttamiseksi.
+Radiosormenjälkiaineistoa tarvitaan paljon, jotta paikannuksessa saavutetaan
+riittävä tarkkuus.
 Lisäksi aineston täytyy pysyä ajan tasalla
 ympäristössä olevien kiinteiden esteiden siirtyessä ja signaalilähteiden
 muuttuessa.
@@ -591,7 +603,10 @@ kykeni lisäksi päivittämään radiokarttaa jatkuvasti hödyntämään PDR-men
 valikoivasti riippuen käyttäjän älylaitteen ominaisuuksista. Tutkimuksessa
 kuvataan 15 tunnin koe yhdellä käyttäjällä, jossa muutaman tunnin aikana
 automaattisesti kerättyä radiokarttaa hyödynnetään onnistuneesti
-WiFi-paikannukseen. 
+WiFi-paikannukseen. Zhu et al. \cite{zhu2012} kehittivät tutkimuksessaan
+samantyyppisen järjestelmän, mutta hyödyntävät WLAN-tukiasemien ohella
+Bluetooth-majakoita sormenjälkiaineistossa sekä muiden käyttäjien
+keräämän aineiston välittämisessä.
 
 Faragher et. al \cite{faragher2012} kuvasivat järjestelmän, joka ei
 tukeutunut lainkaan keskitettyyn radio- tai sisätilakarttaan. Järjestelmä
@@ -599,8 +614,12 @@ käytti kiihtyvyysanturi- ja magnetometridataa SHS-laskelmasuunnistukseen ja
 kartoitti samaan aikaan radiosormenjälkiä. Sormenjälkien samankaltaisuuteen
 perustuen järjestelmä havaitsi syklejä käyttäjän kulkemissa reiteissä
 ja kykeni näin muodostamaan sisätilassa havaituista alueista
-verkoston, jota voitiin käyttää navigointiin. Applen ostama WiFiSLAM
-on samankaltaiseen järjestelmään perustuva kaupallinen yritys.
+verkoston, jota voitiin käyttää navigointiin. Samanaikaisesti
+suoritettua paikannusta ja kartoitusta kutsutaan robotiikan tutkimuksessa
+nimellä SLAM (Simultaneous Localization and Mapping).
+Applen vuonna 2013 ostama WiFiSLAM on kaupallinen yritys, joka kehitti
+samankaltaiseen ideaan perustuvaa tavallisella älypuhelimella toimivaa
+järjestelmää.
 
 \section{Yhteenveto}
 
