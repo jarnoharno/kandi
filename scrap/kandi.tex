@@ -1,0 +1,71 @@
+\documentclass[a4paper]{scrreprt}
+\usepackage[finnish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{verbatim}
+\usepackage[numbers]{natbib}
+\usepackage{hyperref}
+\subject{Kandidaatintyö}
+\author{Jarno Leppänen}
+\title{Laskelmasuunnistus matkapuhelimen sisätilapaikannuksessa}
+\date{2.5.2014}
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Johdanto}
+
+\section{Absoluuttiset paikannustekniikat}
+\subsection{GPS}
+\cite{groves2013principles}
+\subsection{Radiolähteet}
+\cite{varshavsky2005gsm}
+\subsubsection{Kalibrointi}
+\begin{itemize}
+\item HORUS
+\item EZ
+\end{itemize}
+
+\section{Suhteelliset paikannustekniikat}
+\subsection{Inertiaalinavigointi}
+\begin{itemize}
+\item Kumuloituva virhe
+\item Virheenkorjaus rajoitusehdoilla
+\end{itemize}
+\cite{groves2013principles}
+\subsection{Jalankulkijan laskelmasuunnistus}
+\cite{harle2013survey}
+\subsubsection{SHS}
+\begin{itemize}
+\item Askeleen tunnistus
+\item Askeleen pituuden estimointi
+\item Suunnan estimointi
+\item ZUPT-rajoitusehto
+\end{itemize}
+
+\section{Hybriditekniikat}
+\cite{woodman2010pedestrian}
+\cite{evennou2006advanced}
+\cite{leppakoski2013pedestrian}
+\subsection{Bayes-suotimet}
+\subsubsection{Kalman-suodin}
+\subsubsection{Partikkelisuotimet}
+\subsection{Karttatieto rajoitusehtona}
+\cite{li2012reliable}
+\subsection{Radiotunnistetiedon ja laskelmasuunnistuksen yhdistäminen}
+\cite{rai2012zee}
+
+\section{Matkapuhelinsovellukset}
+\subsection{Absoluuttisen paikannukseen perustuvat navigaattorit}
+\subsubsection{Kokeiluasteella olevat järjestelmät}
+Bluetooth, RFID, magneettikenttä\ldots
+\subsection{Askelmittarit}
+Runtastic, jne.
+\subsection{Kokeiluasteella oleva hybridijärjestelmät}
+Zee?
+
+\section{Yhteenveto}
+
+\bibliographystyle{plainnat}
+\bibliography{kandi}
+\end{document}
